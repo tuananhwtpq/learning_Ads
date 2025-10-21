@@ -2,6 +2,8 @@ package com.example.admob_android
 
 import android.Manifest
 import android.app.Activity
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -18,6 +20,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
 import com.google.firebase.crashlytics.crashlytics
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.messaging
 
 class MainActivity : AppCompatActivity() {
 
@@ -61,19 +64,29 @@ class MainActivity : AppCompatActivity() {
 
         firebaseAnalytics = Firebase.analytics
 
-        binding.btnAdBanner.setOnClickListener { navigateToActivity(BannerAdsActivity()) }
-        binding.btnAddInterstital.setOnClickListener { navigateToActivity(InterstitialAdsActivity()) }
-        binding.btnAdsReward.setOnClickListener { navigateToActivity(RewardAdsActivity()) }
-        binding.btnAdsNative.setOnClickListener { navigateToActivity(NativeAdsActivity()) }
+        binding.btnAdBanner.setOnClickListener { navigateToActivity(BannerAdsActivity::class.java) }
+        binding.btnAddInterstital.setOnClickListener { navigateToActivity(InterstitialAdsActivity::class.java) }
+        binding.btnAdsReward.setOnClickListener { navigateToActivity(RewardAdsActivity::class.java) }
+        binding.btnAdsNative.setOnClickListener { navigateToActivity(NativeAdsActivity::class.java) }
         binding.btnCrashApp.setOnClickListener {
             throw RuntimeException("Test Crash")
             Firebase.crashlytics.log("message")
 
         }
+        createNotificationChannel()
+        handleRemoteConfig()
 
         binding.btnFcmMessaging.setOnClickListener { askNotificationPermission() }
+        //Firebase.messaging.isAutoInitEnabled = true
+
+        binding.btnChangeConfig.setOnClickListener { navigateToActivity(TestRemoteConfigActivity::class.java) }
 
 
+    }
+
+    private fun handleRemoteConfig() {
+
+        //val remoteConfig = Firebase.remoteConfig
     }
 
     private fun askNotificationPermission() {
@@ -98,8 +111,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun navigateToActivity(activity: Activity) {
-        val intent = Intent(this, activity::class.java)
+    private fun navigateToActivity(activityClass: Class<out Activity>) {
+        val intent = Intent(this, activityClass)
         startActivity(intent)
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channelId = "Messages"
+            val channelName = "Messages"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(channelId, channelName, importance)
+            channel.description = "All messages."
+
+            val notificationManager = getSystemService(NotificationManager::class.java)
+            notificationManager?.createNotificationChannel(channel)
+            Log.d(TAG, "Notification Channel đã được tạo.")
+        }
     }
 }

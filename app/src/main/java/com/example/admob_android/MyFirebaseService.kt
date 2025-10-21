@@ -35,6 +35,17 @@ class MyFirebaseService : FirebaseMessagingService() {
         }
     }
 
+    override fun onNewToken(token: String) {
+        super.onNewToken(token)
+        Log.d(TAG, "New Token: $token")
+
+        sendTokenToServer(token)
+    }
+
+    private fun sendTokenToServer(token: String) {
+    }
+
+
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         createNotificationChannel()
 
@@ -52,6 +63,16 @@ class MyFirebaseService : FirebaseMessagingService() {
                 manager.notify(0, notification)
             }
         }
+
+        remoteMessage.data.isNotEmpty().let {
+            Log.d(TAG, "Message data: ${remoteMessage.data}")
+
+            handleDataMessage(remoteMessage.data)
+        }
+
+    }
+
+    private fun handleDataMessage(data: Map<String, String>) {
     }
 
 
