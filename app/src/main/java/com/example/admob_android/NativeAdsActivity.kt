@@ -104,6 +104,7 @@ class NativeAdsActivity : AppCompatActivity() {
                 nativeAdView.headlineView = nativeBinding.adHeadline
                 nativeBinding.adHeadline.text = nativeAd.headline
 
+
                 nativeAdView.starRatingView = nativeBinding.adStars
                 if (nativeAd.starRating != null) {
                     nativeBinding.adStars.visibility = View.VISIBLE
@@ -117,15 +118,33 @@ class NativeAdsActivity : AppCompatActivity() {
                 val mediaContent = nativeAd.mediaContent
                 val videoController = mediaContent?.videoController
 
+                if (mediaContent != null) {
+                    nativeBinding.adMedia.setMediaContent(mediaContent)
+                    nativeBinding.adMedia.visibility = View.VISIBLE
+                } else {
+                    nativeBinding.adMedia.visibility = View.GONE
+                }
+
+
                 if (videoController != null && mediaContent.hasVideoContent()) {
                     videoController.videoLifecycleCallbacks =
                         object : VideoController.VideoLifecycleCallbacks() {
                             override fun onVideoEnd() {
                                 super.onVideoEnd()
                             }
+
+                            override fun onVideoPlay() {
+                                super.onVideoPlay()
+                            }
+
+                            override fun onVideoStart() {
+                                super.onVideoStart()
+                            }
                         }
+
+                    Log.d(TAG, "Load Video success")
                 } else {
-                    nativeBinding.adMedia.visibility = View.GONE
+                    Log.d(TAG, "Video content is Image, cannot set video callback")
                 }
 
                 nativeAdView.bodyView = nativeBinding.adBody
@@ -134,6 +153,18 @@ class NativeAdsActivity : AppCompatActivity() {
                     nativeBinding.adBody.text = nativeAd.body
                 } else {
                     nativeBinding.adBody.visibility = View.INVISIBLE
+                }
+
+                nativeAdView.advertiserView = nativeBinding.adBadge
+                if (nativeAd.advertiser != null) {
+                    nativeBinding.adBadge.visibility = View.VISIBLE
+                    nativeBinding.adBadge.text = nativeAd.advertiser
+                    Log.d(TAG, "Ad advertoser is ready")
+
+                } else {
+                    nativeBinding.adBadge.visibility = View.VISIBLE
+                    nativeBinding.adBadge.text = "Ad Advertiser"
+                    Log.d(TAG, "Ad advertoser is null")
                 }
 
                 nativeAdView.callToActionView = nativeBinding.btnCallToAction

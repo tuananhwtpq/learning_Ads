@@ -44,5 +44,23 @@
         app:layout_constraintStart_toStartOf="@id/btn_ads_reward"
         app:layout_constraintTop_toBottomOf="@id/btn_ads_reward" />
 
+    <Button
+        android:id="@+id/btn_crash_app"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Test crash"
+        app:layout_constraintStart_toStartOf="@id/btn_ads_native"
+        app:layout_constraintTop_toBottomOf="@id/btn_ads_native" />
+
+    <Button
+        android:id="@+id/btn_fcm_messaging"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="FCM Button"
+        app:layout_constraintStart_toStartOf="@id/btn_crash_app"
+        app:layout_constraintTop_toBottomOf="@id/btn_crash_app" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
