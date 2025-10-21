@@ -8,15 +8,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.admob_android.databinding.ActivityMainBinding
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        firebaseAnalytics = Firebase.analytics
 
         binding.btnAdBanner.setOnClickListener { navigateToActivity(BannerAdsActivity()) }
         binding.btnAddInterstital.setOnClickListener { navigateToActivity(InterstitialAdsActivity()) }
