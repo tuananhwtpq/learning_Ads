@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "960959818153",
+    "project_id": "testing-dev-613b1",
+    "storage_bucket": "testing-dev-613b1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960959818153:android:97cc2af61424927f19fcb8",
+        "android_client_info": {
+          "package_name": "com.example.admob_android"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLTi0JFjezIOhIi9RS8N8NwCZ86QJeYm0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

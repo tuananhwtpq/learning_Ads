@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btn_ad_banner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="40dp"
+        android:text="Ads Banner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_add_interstital"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Ads Interstital"
+        app:layout_constraintStart_toStartOf="@id/btn_ad_banner"
+        app:layout_constraintTop_toBottomOf="@id/btn_ad_banner" />
+
+    <Button
+        android:id="@+id/btn_ads_reward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Ads Rewards"
+        app:layout_constraintStart_toStartOf="@id/btn_add_interstital"
+        app:layout_constraintTop_toBottomOf="@id/btn_add_interstital" />
+
+    <Button
+        android:id="@+id/btn_ads_native"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Ads Native"
+        app:layout_constraintStart_toStartOf="@id/btn_ads_reward"
+        app:layout_constraintTop_toBottomOf="@id/btn_ads_reward" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
