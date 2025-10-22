@@ -1,19 +1,14 @@
-package com.example.admob_android
+package com.example.admob_android.activity
 
+import android.os.Build
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.view.WindowInsets
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.admob_android.databinding.ActivityBannerAdsBinding
-import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class BannerAdsActivity : AppCompatActivity() {
 
@@ -54,10 +49,10 @@ class BannerAdsActivity : AppCompatActivity() {
     private fun getAdsSize(): AdSize {
         val displayMetrics = resources.displayMetrics
         val adWidthPixels =
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 val windowMetrics = windowManager.currentWindowMetrics
                 val insets = windowMetrics.windowInsets.getInsets(
-                    android.view.WindowInsets.Type.systemBars() or android.view.WindowInsets.Type.displayCutout()
+                    WindowInsets.Type.systemBars() or WindowInsets.Type.displayCutout()
                 )
                 windowMetrics.bounds.width() - insets.left - insets.right
             } else {

@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Admob_android</string>
     <string name="app_id">testing-dev-613b1</string>
+    <string name="splash_activity">Splash Activity</string>
+    <string name="image">image</string>
+    <string name="go_to_main">Go to Main</string>
 </resources>

@@ -1,12 +1,10 @@
-package com.example.admob_android
+package com.example.admob_android.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.admob_android.databinding.ActivityNativeAdsBinding
 import com.example.admob_android.databinding.AdUnifiedBinding
 import com.google.android.gms.ads.AdListener
@@ -17,7 +15,6 @@ import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.VideoController
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdOptions
-import com.google.android.gms.ads.nativead.NativeAdOptions.ADCHOICES_TOP_LEFT
 import com.google.android.gms.ads.nativead.NativeAdView
 
 class NativeAdsActivity : AppCompatActivity() {
@@ -31,6 +28,7 @@ class NativeAdsActivity : AppCompatActivity() {
 
     private var nativeAdView: NativeAdView? = null
 
+    //region ONCREATE
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNativeAdsBinding.inflate(layoutInflater)
@@ -50,11 +48,17 @@ class NativeAdsActivity : AppCompatActivity() {
         loadNativeAds()
     }
 
+    //region LOAD ADS
+    @SuppressLint("SetTextI18n")
     private fun loadNativeAds() {
+
+        binding.btnRetry.isEnabled = false
+        binding.btnRetry.text = "Ads is loading..."
 
         val adLoader = AdLoader.Builder(this, AD_UNIT_ID)
             .withNativeAdOptions(
-                NativeAdOptions.Builder().setAdChoicesPlacement(ADCHOICES_TOP_LEFT).build()
+                NativeAdOptions.Builder().setAdChoicesPlacement(NativeAdOptions.ADCHOICES_TOP_LEFT)
+                    .build()
             )
             .withAdListener(object : AdListener() {
                 override fun onAdClicked() {
@@ -93,6 +97,7 @@ class NativeAdsActivity : AppCompatActivity() {
                 }
 
             })
+            //region FOR NATIVE AD
             .forNativeAd { nativeAd: NativeAd ->
 
                 binding.adViewContainer.removeAllViews()
@@ -112,7 +117,7 @@ class NativeAdsActivity : AppCompatActivity() {
                 } else {
                     nativeBinding.adStars.visibility = View.INVISIBLE
                 }
-
+                //region MEDIA CONTENT
                 nativeAdView.mediaView = nativeBinding.adMedia
 
                 val mediaContent = nativeAd.mediaContent
@@ -206,7 +211,11 @@ class NativeAdsActivity : AppCompatActivity() {
             }
             .build()
 
+        //region AD REQUEST
         val adRequest = AdRequest.Builder().build()
         adLoader.loadAd(adRequest)
+
+        binding.btnRetry.isEnabled = true
+        binding.btnRetry.text = "Retry"
     }
 }
