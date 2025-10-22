@@ -31,9 +31,6 @@
             android:name=".TestRemoteConfigActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.OpenAppAdsActivity"
-            android:exported="false" />
-        <activity
             android:name=".activity.NativeAdsActivity"
             android:exported="false" />
         <activity

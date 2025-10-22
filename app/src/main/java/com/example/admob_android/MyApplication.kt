@@ -14,7 +14,6 @@ import com.google.android.gms.ads.MobileAds
 
 class MyApplication :
     MultiDexApplication(), Application.ActivityLifecycleCallbacks, DefaultLifecycleObserver {
-
     companion object {
         private const val TAG = "MyApplication"
     }
@@ -55,11 +54,10 @@ class MyApplication :
         currentActivity = activity
     }
 
-    override fun onActivityDestroyed(activity: Activity) {
+    override fun onActivityStarted(activity: Activity) {
+        currentActivity = activity
     }
 
-    override fun onActivityPaused(activity: Activity) {
-    }
 
     override fun onActivityResumed(activity: Activity) {
         currentActivity = activity
@@ -71,8 +69,10 @@ class MyApplication :
     ) {
     }
 
-    override fun onActivityStarted(activity: Activity) {
-        currentActivity = activity
+    override fun onActivityDestroyed(activity: Activity) {
+    }
+
+    override fun onActivityPaused(activity: Activity) {
     }
 
     override fun onActivityStopped(activity: Activity) {

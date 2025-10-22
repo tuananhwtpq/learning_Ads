@@ -16,22 +16,17 @@ object AppOpenAdManager {
     private const val TAG = "AppOpenAdManager"
     private const val AD_UNIT_ID = "ca-app-pub-3940256099942544/9257395921"
     private const val AD_EXPIRATION_HOURS = 4L
-
     private var appOpenAd: AppOpenAd? = null
     private var isLoadingAd: Boolean = false
     private var isShowingAd: Boolean = false
-
     private var loadTime: Long = 0
-
     private val isAdAvailable: Boolean
         get() = appOpenAd != null && wasLoadTimeLessThanNHoursAgo(AD_EXPIRATION_HOURS)
-
     private fun wasLoadTimeLessThanNHoursAgo(numHours: Long): Boolean {
         val dateDifference: Long = Date().time - loadTime
         val numMilliSecondsPerHour: Long = 3600000
         return dateDifference < numMilliSecondsPerHour * numHours
     }
-
     fun loadAppOpenAd(context: Context) {
 
         if (isAdAvailable || isLoadingAd) return
