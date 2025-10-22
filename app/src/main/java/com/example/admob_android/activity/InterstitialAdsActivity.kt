@@ -1,11 +1,8 @@
-package com.example.admob_android
+package com.example.admob_android.activity
 
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.admob_android.databinding.ActivityInterstitialAdsBinding
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
@@ -14,9 +11,6 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class InterstitialAdsActivity : AppCompatActivity() {
 
@@ -39,7 +33,6 @@ class InterstitialAdsActivity : AppCompatActivity() {
         loadInterstitialAd()
 
         binding.btnRetry.setOnClickListener { showInterstitialAds() }
-
     }
 
     private fun loadInterstitialAd() {

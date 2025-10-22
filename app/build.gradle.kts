@@ -58,10 +58,11 @@ dependencies {
 
     implementation("com.google.android.gms:play-services-ads:24.7.0")
 
-    implementation(platform("com.google.firebase:firebase-bom:34.2.0"))
+    implementation(platform("com.google.firebase:firebase-bom:34.4.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-crashlytics-ndk")
-    implementation("com.google.firebase:firebase-messaging:25.0.1")
     implementation("com.google.firebase:firebase-config")
+
+    implementation("androidx.multidex:multidex:2.0.1")
 
 }

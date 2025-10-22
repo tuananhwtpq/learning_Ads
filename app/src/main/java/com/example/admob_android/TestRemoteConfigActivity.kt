@@ -26,7 +26,7 @@ class TestRemoteConfigActivity : AppCompatActivity() {
         remoteConfig = Firebase.remoteConfig
 
         val configSetting = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 60
+            minimumFetchIntervalInSeconds = 30
         }
         remoteConfig.setConfigSettingsAsync(configSetting)
 

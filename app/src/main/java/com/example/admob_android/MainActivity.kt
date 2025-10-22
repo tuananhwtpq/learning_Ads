@@ -2,8 +2,10 @@ package com.example.admob_android
 
 import android.Manifest
 import android.app.Activity
+import android.app.Dialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -11,10 +13,16 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.example.admob_android.activity.BannerAdsActivity
+import com.example.admob_android.activity.InterstitialAdsActivity
+import com.example.admob_android.activity.NativeAdsActivity
+import com.example.admob_android.activity.RewardAdsActivity
 import com.example.admob_android.databinding.ActivityMainBinding
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
@@ -47,10 +55,11 @@ class MainActivity : AppCompatActivity() {
             })
 
         } else {
+
             Toast.makeText(
                 this,
                 "FCM can't post notifications without POST_NOTIFICATIONS permission",
-                Toast.LENGTH_LONG,
+                Toast.LENGTH_SHORT,
             ).show()
 
             Log.d(TAG, "FCM can't post notifications without POST_NOTIFICATIONS permission")
@@ -64,6 +73,13 @@ class MainActivity : AppCompatActivity() {
 
         firebaseAnalytics = Firebase.analytics
 
+        handleButtonOnClicked()
+        createNotificationChannel()
+        handleRemoteConfig()
+
+    }
+
+    private fun handleButtonOnClicked() {
         binding.btnAdBanner.setOnClickListener { navigateToActivity(BannerAdsActivity::class.java) }
         binding.btnAddInterstital.setOnClickListener { navigateToActivity(InterstitialAdsActivity::class.java) }
         binding.btnAdsReward.setOnClickListener { navigateToActivity(RewardAdsActivity::class.java) }
@@ -73,20 +89,13 @@ class MainActivity : AppCompatActivity() {
             Firebase.crashlytics.log("message")
 
         }
-        createNotificationChannel()
-        handleRemoteConfig()
-
         binding.btnFcmMessaging.setOnClickListener { askNotificationPermission() }
-        //Firebase.messaging.isAutoInitEnabled = true
-
         binding.btnChangeConfig.setOnClickListener { navigateToActivity(TestRemoteConfigActivity::class.java) }
-
 
     }
 
     private fun handleRemoteConfig() {
 
-        //val remoteConfig = Firebase.remoteConfig
     }
 
     private fun askNotificationPermission() {
@@ -94,21 +103,40 @@ class MainActivity : AppCompatActivity() {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
                 PackageManager.PERMISSION_GRANTED
             ) {
-                FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-                    if (!task.isSuccessful) {
-                        Log.d(TAG, "Fetching FCM registration token failed", task.exception)
-                        return@OnCompleteListener
-                    }
-
-                    val token = task.result
-                })
+                Log.d(TAG, "Has permission!")
+                fetchFcmToken()
 
             } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
 
+                AlertDialog.Builder(this)
+                    .setTitle("You need to access notification permission to use this")
+                    .setPositiveButton("OK") { _, _ ->
+                        requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    }
+                    .setNegativeButton("Cancel", null)
+                    .show()
+
             } else {
+                Log.d(TAG, "Is loading permission")
                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
+        } else {
+            fetchFcmToken()
         }
+    }
+
+    /**
+     * Su dung de xin quyen cac may co API nho hon 26
+     */
+    private fun fetchFcmToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+            val token = task.result
+            Log.d(TAG, "Token: $token")
+        })
     }
 
     private fun navigateToActivity(activityClass: Class<out Activity>) {
