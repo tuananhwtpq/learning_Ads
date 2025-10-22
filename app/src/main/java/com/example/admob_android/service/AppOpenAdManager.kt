@@ -12,14 +12,11 @@ import com.google.android.gms.ads.appopen.AppOpenAd
 import java.util.Date
 import kotlin.contracts.contract
 
-class AppOpenAdManager {
+object AppOpenAdManager {
 
-    companion object {
-        private const val TAG = "AppOpenAdManager"
-
-        private const val AD_UNIT_ID = "ca-app-pub-3940256099942544/9257395921"
-        private const val AD_EXPIRATION_HOURS = 4L
-    }
+    private const val TAG = "AppOpenAdManager"
+    private const val AD_UNIT_ID = "ca-app-pub-3940256099942544/9257395921"
+    private const val AD_EXPIRATION_HOURS = 4L
 
     private var appOpenAd: AppOpenAd? = null
     private var isLoadingAd: Boolean = false
@@ -36,12 +33,15 @@ class AppOpenAdManager {
         return dateDifference < numMilliSecondsPerHour * numHours
     }
 
-    private fun loadAppOpenAd(context: Context) {
+    fun loadAppOpenAd(context: Context) {
 
         if (isAdAvailable || isLoadingAd) return
 
+        isLoadingAd = true
+
         val adRequest = AdRequest.Builder().build()
 
+        Log.d(TAG, "Ads is loading")
         AppOpenAd.load(
             context,
             AD_UNIT_ID,
@@ -54,6 +54,7 @@ class AppOpenAdManager {
                 }
 
                 override fun onAdLoaded(ad: AppOpenAd) {
+                    Log.d(TAG, "Ads Load Successed")
                     appOpenAd = ad
                     isLoadingAd = false
                     loadTime = Date().time
@@ -65,37 +66,40 @@ class AppOpenAdManager {
 
     fun showAdIfAvailable(
         activity: Activity,
-        onShowAdCompleteListener: OnShowAdCompleteListener
+        onShowAdCompleteListener: OnShowAdCompleteListener? = null
     ) {
         if (isShowingAd) {
             Log.d(TAG, "Ad is showing")
+            onShowAdCompleteListener?.onShowAdComplete()
             return
         }
 
         if (!isAdAvailable) {
-            Log.d(TAG, "Ads was no")
-            onShowAdCompleteListener.onShowAdComplete()
+            Log.d(TAG, "Ads was not ready yet")
+            onShowAdCompleteListener?.onShowAdComplete()
             return
         }
 
-        Log.d(TAG, "Bắt đầu hiển thị quảng cáo.")
+        Log.d(TAG, "Ads is loading")
         appOpenAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
             override fun onAdDismissedFullScreenContent() {
-                Log.d(TAG, "Quảng cáo đã bị đóng.")
-                appOpenAd = null // Hủy quảng cáo đã dùng
+                Log.d(TAG, "Ads was dismissed")
+                appOpenAd = null
                 isShowingAd = false
-                onShowAdCompleteListener.onShowAdComplete()
+                onShowAdCompleteListener?.onShowAdComplete()
+                loadAppOpenAd(activity)
             }
 
             override fun onAdFailedToShowFullScreenContent(adError: AdError) {
-                Log.d(TAG, "Lỗi khi hiển thị quảng cáo: ${adError.message}")
+                Log.d(TAG, "Ads was failed to show full screen: ${adError.message}")
                 appOpenAd = null
                 isShowingAd = false
-                onShowAdCompleteListener.onShowAdComplete()
+                onShowAdCompleteListener?.onShowAdComplete()
+                loadAppOpenAd(activity)
             }
 
             override fun onAdShowedFullScreenContent() {
-                Log.d(TAG, "Hiển thị quảng cáo thành công.")
+                Log.d(TAG, "Ads show successfully")
             }
         }
 
