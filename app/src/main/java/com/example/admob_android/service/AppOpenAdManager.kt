@@ -36,11 +36,9 @@ class AppOpenAdManager {
         return dateDifference < numMilliSecondsPerHour * numHours
     }
 
-    fun loadAppOpenAd(context: Context) {
+    private fun loadAppOpenAd(context: Context) {
 
         if (isAdAvailable || isLoadingAd) return
-
-        isLoadingAd = true
 
         val adRequest = AdRequest.Builder().build()
 
@@ -59,6 +57,7 @@ class AppOpenAdManager {
                     appOpenAd = ad
                     isLoadingAd = false
                     loadTime = Date().time
+
                 }
             }
         )
@@ -74,37 +73,29 @@ class AppOpenAdManager {
         }
 
         if (!isAdAvailable) {
-            Log.d(TAG, "Ads is not ready yet")
+            Log.d(TAG, "Ads was no")
             onShowAdCompleteListener.onShowAdComplete()
             return
         }
 
-        Log.d(TAG, "Ads is going to show")
+        Log.d(TAG, "Bắt đầu hiển thị quảng cáo.")
         appOpenAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
             override fun onAdDismissedFullScreenContent() {
-                Log.d(TAG, "ADs was dismissed")
-                appOpenAd = null
+                Log.d(TAG, "Quảng cáo đã bị đóng.")
+                appOpenAd = null // Hủy quảng cáo đã dùng
                 isShowingAd = false
                 onShowAdCompleteListener.onShowAdComplete()
             }
 
             override fun onAdFailedToShowFullScreenContent(adError: AdError) {
-                Log.d(TAG, "Ads was failed to show: ${adError.message}")
+                Log.d(TAG, "Lỗi khi hiển thị quảng cáo: ${adError.message}")
                 appOpenAd = null
                 isShowingAd = false
                 onShowAdCompleteListener.onShowAdComplete()
             }
 
             override fun onAdShowedFullScreenContent() {
-                Log.d(TAG, "Ads show success")
-            }
-
-            override fun onAdClicked() {
-                Log.d(TAG, "Ads was clicked")
-            }
-
-            override fun onAdImpression() {
-                Log.d(TAG, "Ads was impressed")
+                Log.d(TAG, "Hiển thị quảng cáo thành công.")
             }
         }
 
