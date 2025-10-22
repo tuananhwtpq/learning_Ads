@@ -2,10 +2,8 @@ package com.example.admob_android
 
 import android.Manifest
 import android.app.Activity
-import android.app.Dialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -22,13 +20,11 @@ import com.example.admob_android.activity.NativeAdsActivity
 import com.example.admob_android.activity.RewardAdsActivity
 import com.example.admob_android.databinding.ActivityMainBinding
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
 import com.google.firebase.crashlytics.crashlytics
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.messaging
 
 class MainActivity : AppCompatActivity() {
 

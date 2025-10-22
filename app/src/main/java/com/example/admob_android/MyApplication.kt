@@ -8,7 +8,6 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.multidex.MultiDexApplication
-import com.example.admob_android.activity.OpenAppAdsActivity
 import com.example.admob_android.activity.SplashActivity
 import com.example.admob_android.service.AppOpenAdManager
 import com.google.android.gms.ads.MobileAds

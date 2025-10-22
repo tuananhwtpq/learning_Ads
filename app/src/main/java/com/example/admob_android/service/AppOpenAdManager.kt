@@ -10,7 +10,6 @@ import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.appopen.AppOpenAd
 import java.util.Date
-import kotlin.contracts.contract
 
 object AppOpenAdManager {
 

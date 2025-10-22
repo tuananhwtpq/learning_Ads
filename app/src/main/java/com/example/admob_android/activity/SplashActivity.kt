@@ -2,12 +2,8 @@ package com.example.admob_android.activity
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.admob_android.MainActivity
-import com.example.admob_android.R
 import com.example.admob_android.databinding.ActivitySplashBinding
 
 class SplashActivity : AppCompatActivity() {

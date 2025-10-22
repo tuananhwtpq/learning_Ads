@@ -1,5 +1,6 @@
 package com.example.admob_android.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -48,6 +49,7 @@ class NativeAdsActivity : AppCompatActivity() {
     }
 
     //region LOAD ADS
+    @SuppressLint("SetTextI18n")
     private fun loadNativeAds() {
 
         binding.btnRetry.isEnabled = false

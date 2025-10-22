@@ -1,5 +1,6 @@
 package com.example.admob_android.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -35,6 +36,7 @@ class InterstitialAdsActivity : AppCompatActivity() {
         binding.btnRetry.setOnClickListener { showInterstitialAds() }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun loadInterstitialAd() {
         Log.d(TAG, "LoadInterstitialAd() is running")
 
